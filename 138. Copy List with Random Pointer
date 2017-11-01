@@ -1,0 +1,45 @@
+1. 遍历三遍
+2. 复制每个node，原始node的next指向复制的node，复制node的next指向原始的next
+3. 复制random指针
+4. 恢复原始list，生成新list
+
+public RandomListNode copyRandomList(RandomListNode head) {
+      if (head == null){
+          return null;
+      }
+
+      RandomListNode p = head;
+
+      while (p != null){
+          RandomListNode newNode = new RandomListNode(p.label);
+          newNode.next = p.next;
+          p.next = newNode;
+          p = newNode.next;
+      }
+
+      p = head;
+      while (p != null){
+          if (p.random != null){
+              p.next.random = p.random.next;
+          }
+          p = p.next.next;
+      }
+
+      p = head;
+      RandomListNode newHead = head.next; 
+
+      while (p != null){
+          RandomListNode node = p.next;
+          p.next = node.next;
+          if (node.next != null){
+              node.next = node.next.next;
+          }
+          p = p.next;
+      }
+
+      return newHead;   
+}
+
+Time: O(3n)
+Space: O(1)
+ 
